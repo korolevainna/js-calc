@@ -1,6 +1,6 @@
 class Calc {
   static #value = ''
-
+  static #NAME = 'calc'
   static #isDot = false
 
   static add = (newValue) => {
@@ -18,6 +18,7 @@ class Calc {
   }
 
   static #output = () => {
+    this.#save()
     window.output.innerHTML = this.#value
   }
 
@@ -55,6 +56,23 @@ class Calc {
     this.#value = String(eval(this.#value))
     this.#output()
   }
+
+  static #save = () => {
+    window.localStorage.setItem(this.#NAME, this.#value)
+  }
+
+  static #load = () => {
+    this.#value =
+      window.localStorage.getItem(this.#NAME) || ''
+  }
+
+  static init = () => {
+    this.#load()
+    this.#output()
+    console.log('Calc is init')
+  }
 }
+
+Calc.init()
 
 window.calc = Calc
